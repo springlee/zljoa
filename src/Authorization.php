@@ -79,13 +79,32 @@ class Authorization
         return $this;
     }
 
-    public function getUrl()
+    private function getUrl()
     {
         $mode = $this->config['mode'] ?? 'dev';
         if (!in_array(strtolower($mode), ['local', 'dev', 'pre', 'prod'])) {
-            throw new InvalidArgumentException('Invalid mode : ' . $mode);
+            throw new InvalidArgumentException('invalid mode : ' . $mode);
         }
         return $this->urls[$mode];
+    }
+
+    /**
+     * 用户注销
+     * @return mixed
+     * @throws HttpException
+     */
+    public function logout(){
+        try {
+            $url = $this->getUrl() . '/api/authorization/logout';
+            $response = $this->getHttpClient()->get($url, [
+                'headers' => [
+                    'Authorization' => 'Bearer ' . $this->token
+                ]
+            ])->getBody()->getContents();
+            return \json_decode($response, true);
+        } catch (\Exception $e) {
+            throw new HttpException($e->getMessage(), $e->getCode(), $e);
+        }
     }
 
     /**

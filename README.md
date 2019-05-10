@@ -36,7 +36,8 @@ $ret = $app->getCode();
 $code = $ret['data']['code'];
 
 echo "重定向url: \n";
-echo $app->getUrl() . '/api/authorization/client_token?' . http_build_query(['code' => $code]);
+
+echo '前端地址?' . http_build_query(['code' => $code]);
 
 echo "\n访问重定向地址后 系统会自动跳转回业务系统,同时url参数会带上token 业务系统自行保存token  \n";
 
@@ -60,6 +61,12 @@ var_dump($ret);
 echo "\n判断是否可以访问(redis) uri   \n";
 
 $ret = $app->setOpenid($openid)->canVisitByCache('xxxx');
+
+var_dump($ret);
+
+echo "\n用户注销\n";
+
+$ret = $app->setOpenid($openid)->logout();
 
 var_dump($ret);
 
