@@ -66,7 +66,7 @@ var_dump($ret);
 
 echo "\n用户注销\n";
 
-$ret = $app->setOpenid($openid)->logout();
+$ret = $app->setToken($token)->logout();
 
 var_dump($ret);
 
