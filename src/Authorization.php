@@ -115,12 +115,12 @@ class Authorization
      */
     public function getCode()
     {
-        $url = $this->getUrl() . '/api/authorization/client_code';
         $body = array_filter([
             'app_key' => $this->config['app_key'],
             'app_secret' => $this->config['app_secret'],
         ]);
         try {
+            $url = $this->getUrl() . '/api/authorization/client_code';
             $response = $this->getHttpClient()->post($url, [
                 'form_params' => $body,
             ])->getBody()->getContents();
@@ -138,9 +138,13 @@ class Authorization
      */
     public function getUser()
     {
+        $body = array_filter([
+            'app_key' => $this->config['app_key'],
+        ]);
         try {
-            $url = $this->getUrl() . '/api/user';
-            $response = $this->getHttpClient()->get($url, [
+            $url = $this->getUrl() . '/api/authorization/user';
+            $response = $this->getHttpClient()->post($url, [
+                'form_params' => $body,
                 'headers' => [
                     'Authorization' => 'Bearer ' . $this->token
                 ]
