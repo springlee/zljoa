@@ -53,7 +53,7 @@ class Authorization
     private function getRedisClient()
     {
         $redisConfig = $this->config['redis'] ?? [];
-        return new \Predis\Client($redisConfig);
+        return new \Predis\Client($redisConfig, $redisConfig['options']);
     }
 
 
@@ -215,5 +215,15 @@ class Authorization
         } catch (\Exception $e) {
             throw new RedisException($e->getMessage(), $e->getCode(), $e);
         }
+    }
+
+    /**
+     * 获取 code 的后的跳转前端地址
+     * @param $code
+     * @return string
+     */
+    public function getFrontendUrlByCode($code)
+    {
+        return $this->config['frontend_url']  . '?' . http_build_query(['code' => $code]);
     }
 }
