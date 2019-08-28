@@ -197,6 +197,12 @@ class Authorization
         ];
         $prefix = 'zlj_oa_database_';
         $key = $prefix . $this->openid . '-' . $this->config['app_key'];
+        $allPermissionKey =  $prefix . 'all_permissions:app_key:' . $this->config['app_key'];
+        $allPermissions = $this->getRedisClient()->get($allPermissionKey);
+        if (!in_array($uri, $allPermissions)) {
+            $response['msg'] = '该uri没设权限控制';
+            return $response;
+        }
         try {
             $exist = $this->getRedisClient()->exists($key);
             if (!$exist) {
