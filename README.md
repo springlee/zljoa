@@ -64,12 +64,18 @@ $ret = $app->setOpenid($openid)->canVisitByCache('xxxx');
 
 var_dump($ret);
 
-echo "\n用户注销\n";
+echo "\n用户注销,会注销所有终端的token\n";
 
 $ret = $app->setToken($token)->logout();
 
 var_dump($ret);
 
+echo "\n某些非跳转的系统对接,用户名密码登录登录\n";
+$username = '1862642862';
+$password = '12345678';
+$reservedTerminal = 1; //0提出其他设备 1保留其他设备，默认提出
+$ret = $app->login($username,$password);
+var_dump($ret);
 ```
 
 ## laravel
