@@ -108,6 +108,35 @@ class Authorization
     }
 
     /**
+     * 用户登录
+     * @param $username
+     * @param $password
+     * @param $reservedTerminal
+     * @return mixed
+     * @throws HttpException
+     */
+    public function login($username, $password, $reservedTerminal = 0)
+    {
+        $body = [
+            'username' => $username,
+            'password' => $password,
+            'reserved_terminal' => $reservedTerminal,
+        ];
+        try {
+            $url = $this->getUrl() . '/api/authorization/login';
+            $response = $this->getHttpClient()->post($url, [
+                'form_params' => $body,
+                'headers' => [
+                    'Authorization' => 'Bearer ' . $this->token
+                ]
+            ])->getBody()->getContents();
+            return \json_decode($response, true);
+        } catch (\Exception $e) {
+            throw new HttpException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
+
+    /**
      * 获取code
      * @return mixed
      * @throws HttpException
@@ -224,6 +253,6 @@ class Authorization
      */
     public function getFrontendUrlByCode($code)
     {
-        return $this->config['frontend_url']  . '?' . http_build_query(['code' => $code]);
+        return $this->config['frontend_url'] . '?' . http_build_query(['code' => $code]);
     }
 }
