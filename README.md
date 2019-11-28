@@ -2,10 +2,10 @@
 
 <p align="center"> .</p>
 
-##
-1. 找靓机OA [在线文档](https://oaapi.zhaoliangji.com/docs).
+## 项目文档
+找靓机OA文档 [https://oaapi.zhaoliangji.com/docs](https://oaapi.zhaoliangji.com/docs)
 
-## Installing
+## composer安装
 
 ```shell
 $ composer require springlee/zljoa
@@ -41,7 +41,7 @@ $app = new Authorization($config);
 ```$xslt
 php artisan vendor:publish --provider="Zlj\Oa\ServiceProvider" --tag="config"
 ```
-## 请求
+## 请求示例
 ```php
 <?php
 
@@ -66,7 +66,6 @@ class HomeController extends Controller
 }
 
 ```
-
 ## 返回结果
 | 字段   |      类型      |  描述 |
 |----------|:-------------:|------:|
@@ -75,18 +74,3 @@ class HomeController extends Controller
 | data |  object |    业务数据 |
 
 
-
-
-## Contributing
-
-You can contribute in one of three ways:
-
-1. File bug reports using the [issue tracker](https://github.com/springlee/zljoa/issues).
-2. Answer questions or fix bugs on the [issue tracker](https://github.com/springlee/zljoa/issues).
-3. Contribute new features or update the wiki.
-
-_The code contribution process is not very formal. You just need to make sure that you follow the PSR-0, PSR-1, and PSR-2 coding guidelines. Any new code contributions must be accompanied by unit tests where applicable._
-
-## License
-
-MIT
