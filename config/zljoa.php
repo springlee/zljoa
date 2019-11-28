@@ -8,7 +8,7 @@ return [
     //读取权限列表缓存的redis地址
     'redis' => [
         'host' => env('ZLJOA_REDIS_HOST', '127.0.0.1'),
-        'port' => env('ZLJOA_REDIS_POST', 6379),
+        'port' => env('ZLJOA_REDIS_PORT', 6379),
         'options' => [
             'parameters' => [
                 'password' => env('ZLJOA_REDIS_PASSWORD', ''),
