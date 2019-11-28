@@ -93,7 +93,8 @@ class Authorization
      * @return mixed
      * @throws HttpException
      */
-    public function logout(){
+    public function logout()
+    {
         try {
             $url = $this->getUrl() . '/api/authorization/logout';
             $response = $this->getHttpClient()->get($url, [
@@ -245,6 +246,62 @@ class Authorization
             throw new RedisException($e->getMessage(), $e->getCode(), $e);
         }
     }
+
+    /**
+     * Desc: 判断是否登录
+     * @return array
+     * @throws RedisException
+     */
+    public function checkIsLoginByCache()
+    {
+        $response = [
+            'code' => 1,
+            'msg' => '在线',
+        ];
+        $prefix = 'zlj_oa_database_';
+        $key = $prefix . $this->token;
+        try {
+            $exist = $this->getRedisClient()->exists($key);
+            if (!$exist) {
+                $response['code'] = 401;
+                $response['msg'] = '鉴权失败';
+            }
+            return $response;
+        } catch (\Exception $e) {
+            throw new RedisException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
+
+
+    /**
+     * Desc: 获取简单的用户信息
+     * @return array
+     * @throws RedisException
+     */
+    public function getSimpleUserByCache()
+    {
+        $response = [
+            'code' => 1,
+            'msg' => '获取用户成功',
+
+        ];
+        $prefix = 'zlj_oa_database_';
+        $key = $prefix . $this->token;
+        try {
+            $exist = $this->getRedisClient()->exists($key);
+            if (!$exist) {
+                $response['code'] = 401;
+                $response['msg'] = '鉴权失败';
+            }else{
+                $user = $this->getRedisClient()->get($key);
+                $response['data'] = json_decode($user,true);
+            }
+            return $response;
+        } catch (\Exception $e) {
+            throw new RedisException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
+
 
     /**
      * 获取 code 的后的跳转前端地址
