@@ -235,8 +235,7 @@ class Authorization
             } else {
                 $clientPermissionsAndMenuTree = $this->getRedisClient()->get($key);
                 $clientPermissionsAndMenuTree = \json_decode($clientPermissionsAndMenuTree, true);
-                if (!$clientPermissionsAndMenuTree['user']['is_super_admin'] && !in_array($uri,
-                        $clientPermissionsAndMenuTree['permissions'])) {
+                if (!$clientPermissionsAndMenuTree || (!$clientPermissionsAndMenuTree['user']['is_super_admin'] && !in_array($uri, $clientPermissionsAndMenuTree['permissions']))) {
                     $response['code'] = 403;
                     $response['msg'] = '禁止访问';
                 }
